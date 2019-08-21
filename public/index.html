@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script defer src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <!--Cannot defer-->
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.6/dist/showdown.min.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <title>RPG fixed converter (Works Of Barry)</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h3>Input</h3>
+        <textarea id="input" rows="20">
+     FCZGD02A0  IF   E           K DISK    INCLUDE(CZTD02A2) PREFIX(D20:3)
+     Fcmgq08a0  if   e           k disk    ignore(cmtq08a1:cmtq08a3)
+     FSSG043A0  IF A E           K Disk    RENAME(SSH04310:SSH04310A)
+
+      *
+      *  Field Definitions.
+      *
+     d Count           s              4  0
+     d Format          s              8
+     d GenLen          s              8
+     d InLibrary       s             10
+     d InType          s             10
+     d ObjectLib       s             20
+     d SpaceVal        s              1    inz(*BLANKS)
+     d SpaceAuth       s             10    inz('*CHANGE')
+     d SpaceText       s             50    inz(*BLANKS)
+     d SpaceRepl       s             10    inz('*YES')
+     d SpaceAttr       s             10    inz(*BLANKS)
+     d UserSpaceOut    s             20
+     d Worktype        s             10    inz('*OUTQ')
+
+      *
+     d                 DS
+     d  StartPosit             1      4B 0
+     d  StartLen               5      8B 0
+     d  SpaceLen               9     12B 0
+     d  ReceiveLen            13     16B 0
+     d  MessageKey            17     20B 0
+     d  MsgDtaLen             21     24B 0
+     d  MsgQueNbr             25     28B 0
+
+      *-- Retrieve object description:  -------------------------------
+     d RtvObjD         Pr                  ExtPgm( 'QUSROBJD' )
+     d  RoRcvVar                  32767a         Options( *VarSize )
+     d  RoRcvVarLen                  10i 0 Const
+     d  RoFmtNam                      8a   Const
+     d  RoObjNamQ                    20a   Const
+     d  RoObjTyp                     10a   Const
+     d  RoError                   32767a         Options( *VarSize )
+
+      *
+      * Date structure for retriving userspace info
+      *
+     d InputDs         DS
+     d  UserSpace              1     20
+     d  SpaceName              1     10
+     d  SpaceLib              11     20
+     d  InpFileLib            29     48
+     d  InpFFilNam            29     38
+     d  InpFFilLib            39     48
+     d  InpRcdFmt             49     58
+
+0.00 DDATE0            S               D                                             130124
+2.00 DDATE1            S               D                                             130129
+0.00 DDATE2            S               D   DATFMT(*JIS)                              130129
+4.00 DDATE3            S               D   INZ(D'2001-01-12')                        130129
+5.00 DDATE3_CHAR       S             10                                              130129
+0.00 D len             S              5I 0                                           130130
+6.00 DTIME0            S               T   INZ(T'10.12.15')                          130129
+0.00 DTIME0_CHAR       S              8                                              130129
+
+      * Into date testing
+8.00 C                   MOVE      *DATE         DATE0                               130129
+9.00 C     *MDY          MOVE      010112        DATE1                               130129
+0.00 C     *MDY/         MOVE      '01/01/12'    DATE2                               130129
+
+0.00 C     KLST1         KLIST                                             
+0.00 C                   KFLD                    ORG                      
+0.00 C                   KFLD                    ACC                      
+6.00 C                   EVAL      ORG=192                                 
+7.00 C                   EVAL      ACC='A00000000017'                     
+8.00 C     KLST1         SETLL     ACCOUNT                                
+9.00 C                   IF        %EQUAL(ACCOUNT)                         
+0.00 C                   READ      ACCOUNT                                
+1.00 C                   EVAL      CCY='AZK'                              
+2.00 C                   EXCEPT    UPDATE_R                               
+3.00 C                   ENDIF                                            
+
+7.00  *___MAIN SUBROUTINE BEGINGS HERE_______________
+0.00 C     MAIN          BEGSR
+8.01 C                   READC     EXPD_SFL
+8.02 C                   DOW       NOT %EOF()
+8.03 C                   SELECT
+8.04 C     S_OPT         WHENEQ    '1'
+8.05 C                   EXSR      OPTION1
+8.06 C     S_OPT         WHENEQ    '2'
+8.07 C                   EXSR      OPTION2
+0808 C     S_OPT         WHENEQ    '4'
+8.09 C                   EXSR      OPTION4
+0.10 C     S_OPT         WHENEQ    '5'
+8.11 C                   EXSR      OPTION5
+0.12 C                   OTHER
+0.13 C                   EXSR      VALIDATE
+0.14 C                   ENDSL
+0.15 C                   READC     EXPD_SFL
+8.16 C                   ENDDO
+8.18 C                   EVAL      MODE='1'
+0.00 C                   ENDSR
+
+4.00 C                   SETON                                        LR  
+        </textarea>
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" type="button" onclick="convertCode()">
+            Convert
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3>Output</h3>
+        <textarea id="output" rows="20"></textarea>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
