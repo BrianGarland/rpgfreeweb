@@ -299,10 +299,12 @@ module.exports = class RPG {
 
     function endBlock(lines) {
       spaces -= 2;
-      lines.splice(index, 0, "".padEnd(8) + "".padEnd(spaces) + "End-" + lastBlock + ";");
+      if (lastBlock !== undefined) {
+        lines.splice(index, 0, "".padEnd(8) + "".padEnd(spaces) + "End-" + lastBlock + ";");
+        index++;
+        length++;
+      }
       wasSub = false;
-      index++;
-      length++;
     }
   }
 }
