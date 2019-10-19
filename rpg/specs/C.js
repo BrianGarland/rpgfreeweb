@@ -167,6 +167,7 @@ module.exports = {
                 output.beforeSpaces = -2;
                 output.value = opcode;
                 break;
+            case "CALLP":
             case "EVAL":
                 output.value = extended;
                 break;
@@ -343,6 +344,12 @@ module.exports = {
                 break;
             case "Z-SUB": 
                 output.value = result + " = 0 - " + factor2;
+                break;
+            
+            default:
+                if (plainOp == "" && extended !== "") {
+                    output.aboveKeywords = extended;
+                }
                 break;
         }
 
