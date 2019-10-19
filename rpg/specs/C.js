@@ -328,6 +328,11 @@ module.exports = {
                 output.value = opcode + " " + factor2 + " " + result;
                 break;
             //TODO: Other WHEN conditions
+            case "WHEN":
+                output.beforeSpaces = -2;
+                output.value = opcode + " " + extended;
+                output.nextSpaces = 2;
+                break;
             case "WHENEQ":
                 output.beforeSpaces = -2;
                 output.value = "When " + factor1 + " = " + factor2;
@@ -347,6 +352,10 @@ module.exports = {
                 if (plainOp == "") {
                     if (extended !== "") {
                         output.aboveKeywords = extended;
+                    } else {
+                        //Set to blank
+                        output.change = true;
+                        output.value = "";
                     }
                 } else {
                     output.message = "Operation " + plainOp + " will not convert.";
