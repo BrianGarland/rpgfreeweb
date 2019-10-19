@@ -1,5 +1,10 @@
+
 function convertCode() {
-  var lines = $('#input').val().split('\n');
+  var input = document.getElementById('input');
+  var output = document.getElementById('output');
+  
+  var lines = input.value.split('\n');
+  //var lines = $('#input').val().split('\n');
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/convert", true);
@@ -7,7 +12,7 @@ function convertCode() {
   xhr.send(JSON.stringify({lines}));
   xhr.onload = function () {
       var data = JSON.parse(this.responseText);
-      $('#output').val(data.lines.join('\n'));
+      output.value = data.lines.join('\n');
   }
 
   //$('#myTextarea').val('');
