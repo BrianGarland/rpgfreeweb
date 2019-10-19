@@ -34,9 +34,6 @@ module.exports = {
 
         var arrayoutput = [];
 
-        if (condition.ind !== "")
-            arrayoutput.push("If" + (condition.not ? " NOT" : "") + " *In" + condition.ind + ";");
-
         plainOp = opcode;
         if (plainOp.indexOf('(') >= 0) {
             plainOp = opcode.substr(0, opcode.indexOf('('));
@@ -350,9 +347,9 @@ module.exports = {
                 if (plainOp == "") {
                     if (extended !== "") {
                         output.aboveKeywords = extended;
-                    } else {
-                        output.message = "Operation " + plainOp + " will not convert.";
                     }
+                } else {
+                    output.message = "Operation " + plainOp + " will not convert.";
                 }
                 break;
         }
@@ -363,6 +360,7 @@ module.exports = {
         }
 
         if (condition.ind !== "" && output.change) {
+            arrayoutput.push("If" + (condition.not ? " NOT" : "") + " *In" + condition.ind + ";");
             arrayoutput.push("  " + output.value);
             arrayoutput.push('Endif;');
         }

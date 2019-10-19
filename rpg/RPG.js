@@ -7,9 +7,9 @@ const specs = {
 };
 
 class Message {
-  constructor(line, message) {
+  constructor(line, text) {
     this.line = line;
-    this.message = message;
+    this.text = text;
   }
 }
 
@@ -39,7 +39,6 @@ module.exports = class RPG {
       value: ""
     }
 
-    console.log(obj);
     var sourceVar = this.vars[obj.source.toUpperCase()];
     var targetVar = this.vars[obj.target.toUpperCase()];
 

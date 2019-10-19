@@ -2,6 +2,7 @@
 function convertCode() {
   var input = document.getElementById('input');
   var output = document.getElementById('output');
+  var messages = document.getElementById('messages');
   
   var lines = input.value.split('\n');
   //var lines = $('#input').val().split('\n');
@@ -13,6 +14,15 @@ function convertCode() {
   xhr.onload = function () {
       var data = JSON.parse(this.responseText);
       output.value = data.lines.join('\n');
+
+      var messageHTML = "";
+      if (data.messages.length > 0) {
+        for (var message of data.messages) {
+          messageHTML += "<tr><td>" + message.line + "</td><td>" + message.text + "</td></tr>";
+        }
+
+        messages.innerHTML = messageHTML;
+      }
   }
 
   //$('#myTextarea').val('');
