@@ -1,5 +1,5 @@
 var Lastkey = "";
-var KeyList = {};
+var Lists = {};
 
 module.exports = {
     Parse: function (input) {
@@ -34,14 +34,16 @@ module.exports = {
         }
 
         switch (plainOp) {
+            case "PLIST":
             case "KLIST":
                 LastKey = factor1.toUpperCase();
-                KeyList[LastKey] = [];
+                Lists[LastKey] = [];
                 output.remove = true;
                 break;
+            case "PARM":
             case "KFLD":
                 //Handle var declaration
-                KeyList[LastKey].push(result);
+                Lists[LastKey].push(result);
                 output.remove = true;
                 break;
             case "ADD":
@@ -58,9 +60,16 @@ module.exports = {
                 }
                 output.value = result + " = " + factor1 + "+ '" + "".padStart(spaces) + "' + " + factor2;
                 break;
+            case "CALL":
+                factor2 = factor2.substring(1, factor2.length-1);
+                if (Lists[result.toUpperCase()])
+                    output.value = factor2 + "(" + Lists[result.toUpperCase()].join(':') + ")";
+                else
+                    output.value = factor2 + '()';
+                break;
             case "CHAIN":
-                if (KeyList[factor1.toUpperCase()])
-                    output.value = opcode + " (" + KeyList[factor1.toUpperCase()].join(':') + ") " + factor2 + " " + result;
+                if (Lists[factor1.toUpperCase()])
+                    output.value = opcode + " (" + Lists[factor1.toUpperCase()].join(':') + ") " + factor2 + " " + result;
                 else
                     output.value = opcode + " " + factor1 + " " + factor2 + " " + result;
                 break;
@@ -267,14 +276,14 @@ module.exports = {
                 output.nextSpaces = 4;
                 break;
             case "SETGT":
-                if (KeyList[factor1.toUpperCase()])
-                    output.value = opcode + " (" + KeyList[factor1.toUpperCase()].join(':') + ") " + factor2;
+                if (Lists[factor1.toUpperCase()])
+                    output.value = opcode + " (" + Lists[factor1.toUpperCase()].join(':') + ") " + factor2;
                 else
                     output.value = opcode + " " + factor1 + " " + factor2;
                 break;
             case "SETLL":
-                if (KeyList[factor1.toUpperCase()])
-                    output.value = opcode + " (" + KeyList[factor1.toUpperCase()].join(':') + ") " + factor2;
+                if (Lists[factor1.toUpperCase()])
+                    output.value = opcode + " (" + Lists[factor1.toUpperCase()].join(':') + ") " + factor2;
                 else
                     output.value = opcode + " " + factor1 + " " + factor2;
                 break;

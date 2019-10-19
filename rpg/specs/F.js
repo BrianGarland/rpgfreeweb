@@ -51,8 +51,12 @@ module.exports = {
         if (field == "K")
             output.value += " Keyed";
 
-        if (keywords != "")
-            output.value += " " + keywords;
+        if (keywords != "") {
+            if (name == "")
+                output.aboveKeywords = keywords;
+            else
+                output.value += " " + keywords;
+        }
 
         if (output.value !== "") {
             output.change = true;
