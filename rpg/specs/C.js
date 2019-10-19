@@ -308,14 +308,14 @@ module.exports = {
                 output.value = result + " = " + factor1 + " - " + factor2;
                 break;
             case "SETOFF":
-                if (ind1 != "") output.value = "*In" + ind1 + " = *Off";
-                if (ind2 != "") output.value = "*In" + ind2 + " = *Off";
-                if (ind3 != "") output.value = "*In" + ind3 + " = *Off";
+                if (ind1 != "") arrayoutput.push("*In" + ind1 + " = *Off;");
+                if (ind2 != "") arrayoutput.push("*In" + ind2 + " = *Off;");
+                if (ind3 != "") arrayoutput.push("*In" + ind3 + " = *Off;");
                 break;
             case "SETON":
-                if (ind1 != "") output.value = "*In" + ind1 + " = *On";
-                if (ind2 != "") output.value = "*In" + ind2 + " = *On";
-                if (ind3 != "") output.value = "*In" + ind3 + " = *On";
+                if (ind1 != "") arrayoutput.push("*In" + ind1 + " = *On;");
+                if (ind2 != "") arrayoutput.push("*In" + ind2 + " = *On;");
+                if (ind3 != "") arrayoutput.push("*In" + ind3 + " = *On;");
                 break;
             case "SUBST":
                 if (factor2.indexOf(":") >= 0) {
@@ -345,6 +345,9 @@ module.exports = {
             case "Z-SUB": 
                 output.value = result + " = 0 - " + factor2;
                 break;
+
+            case "COMP":
+                break;
             
             default:
                 if (plainOp == "" && extended !== "") {
@@ -361,6 +364,9 @@ module.exports = {
         if (condition.ind !== "" && output.change) {
             arrayoutput.push("  " + output.value);
             arrayoutput.push('Endif;');
+        }
+
+        if (arrayoutput.length > 0) {
             output.arrayoutput = arrayoutput;
         }
         return output;
