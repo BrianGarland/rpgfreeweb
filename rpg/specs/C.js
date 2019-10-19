@@ -58,7 +58,7 @@ module.exports = {
                 break;
             case "BEGSR":
                 output.value = opcode + " " + factor1;
-                output.nextSpaces = 4;
+                output.nextSpaces = 2;
                 break;
             case "CAT":
                 if (factor2.indexOf(":") >= 0) {
@@ -161,7 +161,7 @@ module.exports = {
                 output.value = opcode;
                 break;
             case "ENDSR":
-                output.beforeSpaces = -4;
+                output.beforeSpaces = -2;
                 output.value = opcode;
                 break;
             case "CALLP":
