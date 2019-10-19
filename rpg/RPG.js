@@ -6,8 +6,16 @@ const specs = {
   'P': require('./specs/P')
 };
 
+class Message {
+  constructor(line, message) {
+    this.line = line;
+    this.message = message;
+  }
+}
+
 module.exports = class RPG {
   constructor(lines) {
+    this.currentLine = -1;
     this.lines = lines;
     this.vars = {
       '*DATE': {
@@ -16,6 +24,8 @@ module.exports = class RPG {
         len: 10
       }
     };
+
+    this.messages = [];
   }
 
   addVar(obj) {
@@ -45,6 +55,8 @@ module.exports = class RPG {
           //Basically.. if we're assuming that if the targetvar
           //is undefined (probably in a file) but we are moving
           //character date into it, let's assume it's a char field
+
+          this.messages.push(new Message(this.currentLine, "Assuming " + obj.target + " is a character field for MOVE/MOVEL operation."));
 
           targetVar = {
             name: obj.target,
@@ -78,6 +90,7 @@ module.exports = class RPG {
     }
 
     if (targetVar === undefined && sourceVar !== undefined) {
+      this.messages.push(new Message(this.currentLine, "Assuming " + obj.target + " is a type '" + sourceVar.type + "' for MOVE/MOVEL operation."));
       //Here we are assuming the target type based on the source type :)
       targetVar = {
         name: obj.target,
@@ -153,6 +166,8 @@ module.exports = class RPG {
     if (result.value !== "") {
       result.change = true;
       result.value = result.value.trimRight() + ';';
+    } else {
+      this.messages.push(new Message(this.currentLine, "Unable to convert MOVE/MOVEL operation."));
     }
     return result;
   }
@@ -165,6 +180,8 @@ module.exports = class RPG {
       lastBlock = "";
     for (var index = 0; index < length; index++) {
       if (this.lines[index] === undefined) continue;
+      
+      this.currentLine = index;
 
       comment = "";
       line = ' ' + this.lines[index].padEnd(80);
@@ -213,7 +230,11 @@ module.exports = class RPG {
           this.addVar(result.var);
 
         isMove = (result.move !== undefined);
-        hasKeywords = (result.aboveKeywords !== undefined)
+        hasKeywords = (result.aboveKeywords !== undefined);
+
+        if (result.message) {
+          this.messages.push(new Message(this.currentLine, result.message));
+        }
 
         switch (true) {
           case isMove:
@@ -256,7 +277,7 @@ module.exports = class RPG {
                 index++;
                 length++;
               }
-              
+
               index--;
 
             } else {

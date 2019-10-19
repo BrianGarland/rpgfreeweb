@@ -345,13 +345,14 @@ module.exports = {
             case "Z-SUB": 
                 output.value = result + " = 0 - " + factor2;
                 break;
-
-            case "COMP":
-                break;
             
             default:
-                if (plainOp == "" && extended !== "") {
-                    output.aboveKeywords = extended;
+                if (plainOp == "") {
+                    if (extended !== "") {
+                        output.aboveKeywords = extended;
+                    } else {
+                        output.message = "Operation " + plainOp + " will not convert.";
+                    }
                 }
                 break;
         }
@@ -367,6 +368,7 @@ module.exports = {
         }
 
         if (arrayoutput.length > 0) {
+            output.change = true;
             output.arrayoutput = arrayoutput;
         }
         return output;

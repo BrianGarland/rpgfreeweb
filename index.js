@@ -19,7 +19,7 @@ app.post('/convert', function(req, res) {
   var conv = new RPG(lines);
   conv.parse();
 
-  res.send({lines});
+  res.send({lines, messages: conv.messages});
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
