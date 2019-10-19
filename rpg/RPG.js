@@ -40,6 +40,11 @@ module.exports = class RPG {
           type: 'A',
           len: (obj.source.length - 2)
         }
+      } else if (obj.source.startsWith('*')) {
+        sourceVar = {
+          name: obj.source,
+          type: "S" //I think we can pretend it's numeric and it'll still work
+        }
       } else { //Is numeric
         sourceVar = {
           name: obj.source,
@@ -61,62 +66,69 @@ module.exports = class RPG {
       }
     }
 
-    var assignee = targetVar.name;
+    if (targetVar !== undefined) {
+      var assignee = targetVar.name;
 
-    switch (targetVar.type) {
-      case 'D':
-        if (sourceVar.name.toUpperCase() === "*DATE") {
-          result.value = targetVar.name + " = " + sourceVar.name;
-        } else {
-          if (obj.attr === "")
-            result.value = targetVar.name + " = %Date(" + sourceVar.name + ")";
-          else
-            result.value = targetVar.name + " = %Date(" + sourceVar.name + ":" + obj.attr + ")";
-        }
-        break;
+      switch (targetVar.type) {
+        case 'S': //numeric (not specific to packed or zoned)
+          result.value = assignee + " = " + sourceVar.name;
+          break;
+      
+        case 'D': //date
+          if (sourceVar.name.toUpperCase() === "*DATE") {
+            result.value = targetVar.name + " = " + sourceVar.name;
+          } else {
+            if (obj.attr === "")
+              result.value = targetVar.name + " = %Date(" + sourceVar.name + ")";
+            else
+              result.value = targetVar.name + " = %Date(" + sourceVar.name + ":" + obj.attr + ")";
+          }
+          break;
 
-      case 'A':
-        if (obj.padded) {
-          if (obj.dir === "MOVEL")
-            assignee = targetVar.name;
-          else
-            assignee = "EvalR " + targetVar.name;
-        } else {
-          if (obj.dir === "MOVEL")
+        case 'A': //character
+          if (obj.padded) {
+            if (obj.dir === "MOVEL")
+              assignee = targetVar.name;
+            else
+              assignee = "EvalR " + targetVar.name;
+          } else {
+            if (obj.dir === "MOVEL")
+              if (sourceVar.const)
+                assignee = "%Subst(" + targetVar.name + ":1:" + sourceVar.len + ")";
+              else
+                assignee = "%Subst(" + targetVar.name + ":1:%Len(" + sourceVar.name + "))";
+            else
             if (sourceVar.const)
-              assignee = "%Subst(" + targetVar.name + ":1:" + sourceVar.len + ")";
+              assignee = "%Subst(" + targetVar.name + ":%Len(" + targetVar.name + ")-" + sourceVar.len + ")";
             else
-              assignee = "%Subst(" + targetVar.name + ":1:%Len(" + sourceVar.name + "))";
-          else
-          if (sourceVar.const)
-            assignee = "%Subst(" + targetVar.name + ":%Len(" + targetVar.name + ")-" + sourceVar.len + ")";
-          else
-            assignee = "%Subst(" + targetVar.name + ":%Len(" + targetVar.name + ")-%Len(" + sourceVar.name + "))";
-        }
+              assignee = "%Subst(" + targetVar.name + ":%Len(" + targetVar.name + ")-%Len(" + sourceVar.name + "))";
+          }
 
-        switch (sourceVar.type) {
+          switch (sourceVar.type) {
 
-          case 'A':
-            result.value = assignee + " = " + sourceVar.name;
-            break;
+            case 'A':
+              result.value = assignee + " = " + sourceVar.name;
+              break;
 
-          case 'S':
-          case 'P':
-          case 'I':
-          case 'F':
-          case 'U':
-            result.value = assignee + " = %Char(" + sourceVar.name + ")";
-            break;
-
-          case 'D':
-          case 'T':
-            if (obj.attr !== "")
-              result.value = assignee + " = %Char(" + sourceVar.name + ":" + obj.attr + ")";
-            else
+            case 'S':
+            case 'P':
+            case 'I':
+            case 'F':
+            case 'U':
               result.value = assignee + " = %Char(" + sourceVar.name + ")";
-        }
+              break;
 
-        break;
+            case 'D':
+            case 'T':
+              if (obj.attr !== "")
+                result.value = assignee + " = %Char(" + sourceVar.name + ":" + obj.attr + ")";
+              else
+                result.value = assignee + " = %Char(" + sourceVar.name + ")";
+          }
+
+          break;
+      }
+
     }
 
     if (result.value !== "") {
@@ -134,10 +146,10 @@ module.exports = class RPG {
       lastBlock = "";
     for (var index = 0; index < length; index++) {
       if (this.lines[index] === undefined) continue;
-      
+
       comment = "";
       line = ' ' + this.lines[index].padEnd(80);
-      if (line.length > 81) { 
+      if (line.length > 81) {
         line = line.substr(0, 81);
         comment = this.lines[index].substr(80);
       }
@@ -193,10 +205,10 @@ module.exports = class RPG {
             break;
 
           case hasKeywords:
-            var endStmti = this.lines[index-1].indexOf(';');
-            var endStmt = this.lines[index-1].substr(endStmti); //Keep those end line comments :D
+            var endStmti = this.lines[index - 1].indexOf(';');
+            var endStmt = this.lines[index - 1].substr(endStmti); //Keep those end line comments :D
 
-            this.lines[index-1] = this.lines[index-1].substr(0, endStmti) + ' ' + result.aboveKeywords + endStmt;
+            this.lines[index - 1] = this.lines[index - 1].substr(0, endStmti) + ' ' + result.aboveKeywords + endStmt;
             this.lines.splice(index, 1);
             index--;
             break;

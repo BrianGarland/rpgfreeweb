@@ -59,7 +59,7 @@ module.exports = {
                 output.value = result + " = " + factor1 + "+ '" + "".padStart(spaces) + "' + " + factor2;
                 break;
             case "CHAIN":
-                if (KeyLists[factor1.toUpperCase()])
+                if (KeyList[factor1.toUpperCase()])
                     output.value = opcode + " (" + KeyList[factor1.toUpperCase()].join(':') + ") " + factor2 + " " + result;
                 else
                     output.value = opcode + " " + factor1 + " " + factor2 + " " + result;
