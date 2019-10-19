@@ -101,27 +101,27 @@ module.exports = {
                 output.nextSpaces = 2;
                 break;
             case "DOWEQ":
-                output.value = "Dow (" + factor1 + " = " + factor2 + ")";
+                output.value = "Dow " + factor1 + " = " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "DOWNE":
-                output.value = "Dow (" + factor1 + " <> " + factor2 + ")";
+                output.value = "Dow " + factor1 + " <> " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "DOWGT":
-                output.value = "Dow (" + factor1 + " > " + factor2 + ")";
+                output.value = "Dow " + factor1 + " > " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "DOWLT":
-                output.value = "Dow (" + factor1 + " < " + factor2 + ")";
+                output.value = "Dow " + factor1 + " < " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "DOWGE":
-                output.value = "Dow (" + factor1 + " >= " + factor2 + ")";
+                output.value = "Dow " + factor1 + " >= " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "DOWLE":
-                output.value = "Dow (" + factor1 + " <= " + factor2 + ")";
+                output.value = "Dow " + factor1 + " <= " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "DSPLY":
@@ -176,32 +176,35 @@ module.exports = {
                 output.value = opcode + " " + extended;
                 output.nextSpaces = 2;
                 break;
+            case "ANDEQ":
+                output.aboveKeywords = "AND " + factor1 + " = " + factor2;
+                break;
             case "IF":
                 output.value = opcode + " " + extended;
                 output.nextSpaces = 2;
                 break;
             case "IFGT":
-                output.value = "If (" + factor1 + " > " + factor2 + ")";
+                output.value = "If " + factor1 + " > " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "IFLT":
-                output.value = "If (" + factor1 + " < " + factor2 + ")";
+                output.value = "If " + factor1 + " < " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "IFEQ":
-                output.value = "If (" + factor1 + " = " + factor2 + ")";
+                output.value = "If " + factor1 + " = " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "IFNE":
-                output.value = "If (" + factor1 + " <> " + factor2 + ")";
+                output.value = "If " + factor1 + " <> " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "IFGE":
-                output.value = "If (" + factor1 + " >= " + factor2 + ")";
+                output.value = "If " + factor1 + " >= " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "IFLE":
-                output.value = "If (" + factor1 + " <= " + factor2 + ")";
+                output.value = "If " + factor1 + " <= " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "IN":
@@ -316,10 +319,10 @@ module.exports = {
             case "UPDATE":
                 output.value = opcode + " " + factor2 + " " + result;
                 break;
-                //TODO: Other WHEN conditions
+            //TODO: Other WHEN conditions
             case "WHENEQ":
                 output.beforeSpaces = -2;
-                output.value = "When (" + factor1 + " = " + factor2 + ")";
+                output.value = "When " + factor1 + " = " + factor2;
                 output.nextSpaces = 2;
                 break;
             case "WRITE":
