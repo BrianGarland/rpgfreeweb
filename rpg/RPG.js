@@ -40,6 +40,17 @@ module.exports = class RPG {
           type: 'A',
           len: (obj.source.length - 2)
         }
+
+        if (targetVar === undefined) {
+          //Basically.. if we're assuming that if the targetvar
+          //is undefined (probably in a file) but we are moving
+          //character date into it, let's assume it's a char field
+
+          targetVar = {
+            name: obj.target,
+            type: "A"
+          };
+        }
       } else if (obj.source.startsWith('*')) {
         sourceVar = {
           name: obj.source,
