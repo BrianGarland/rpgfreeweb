@@ -201,6 +201,9 @@ module.exports = class RPG {
               this.lines.splice(index, 1);
               index--;
               break;
+            default:
+              this.lines[index] = "".padEnd(8) + "".padEnd(spaces) + line.substr(7).trim();
+              break;
           }
           break;
         case '*':
