@@ -244,10 +244,28 @@ module.exports = class RPG {
 
           case result.change:
             spaces += result.beforeSpaces;
-            this.lines[index] = ignoredColumns + "    " + "".padEnd(spaces) + result.value;
-            if (comment.trim() !== "") {
-              this.lines[index] += ' //' + comment;
+
+            if (result.arrayoutput) {
+
+              this.lines.splice(index, 1);
+
+              for (var y in result.arrayoutput) {
+                result.arrayoutput[y] = ignoredColumns + "    " + "".padEnd(spaces) + result.arrayoutput[y];
+
+                this.lines.splice(index, 0, result.arrayoutput[y]);
+                index++;
+                length++;
+              }
+              
+              index--;
+
+            } else {
+              this.lines[index] = ignoredColumns + "    " + "".padEnd(spaces) + result.value;
+              if (comment.trim() !== "") {
+                this.lines[index] += ' //' + comment;
+              }
             }
+            
             spaces += result.nextSpaces;
             break;
         }

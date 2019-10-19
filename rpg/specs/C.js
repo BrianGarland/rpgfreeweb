@@ -27,6 +27,16 @@ module.exports = {
         var ind2 = input.substr(73, 2).trim();
         var ind3 = input.substr(75, 2).trim();
 
+        var condition = {
+            not: (input.substr(9, 1).toUpperCase() === "N"),
+            ind: input.substr(10, 2).trim()
+        };
+
+        var arrayoutput = [];
+
+        if (condition.ind !== "")
+            arrayoutput.push("If" + (condition.not ? " NOT" : "") + " *In" + condition.ind + ";");
+
         plainOp = opcode;
         if (plainOp.indexOf('(') >= 0) {
             plainOp = opcode.substr(0, opcode.indexOf('('));
@@ -339,6 +349,12 @@ module.exports = {
         if (output.value !== "") {
             output.change = true;
             output.value = output.value.trimRight() + ';';
+        }
+
+        if (condition.ind !== "" && output.change) {
+            arrayoutput.push("  " + output.value);
+            arrayoutput.push('Endif;');
+            output.arrayoutput = arrayoutput;
         }
         return output;
     }
