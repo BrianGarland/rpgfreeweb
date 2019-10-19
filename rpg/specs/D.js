@@ -35,6 +35,10 @@ module.exports = {
     output.var.type = type;
     output.var.len = Number(len);
 
+    if (keywords.endsWith('+')) {
+      keywords = keywords.substr(0, keywords.length-1);
+    }
+
     if (type == "") {
       if (decimals == "")
         output.var.type = "A"; //Character
