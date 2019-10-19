@@ -77,6 +77,14 @@ module.exports = class RPG {
       }
     }
 
+    if (targetVar === undefined && sourceVar !== undefined) {
+      //Here we are assuming the target type based on the source type :)
+      targetVar = {
+        name: obj.target,
+        type: sourceVar.type
+      }
+    }
+
     if (targetVar !== undefined) {
       var assignee = targetVar.name;
 
