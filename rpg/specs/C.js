@@ -245,7 +245,7 @@ module.exports = {
                 }
                 break;
             case "MULT":
-                output.value = result + " = " + factor1 + " / " + factor2;
+                output.value = result + " = " + factor1 + " * " + factor2;
                 break;
             case "ON-ERROR":
                 output.beforeSpaces = -2;
