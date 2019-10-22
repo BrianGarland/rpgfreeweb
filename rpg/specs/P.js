@@ -21,7 +21,7 @@ module.exports = {
       prevName = "";
     }
     if (input.endsWith("...")) {
-      prevName = input.substr(0, input.length - 3);
+      prevName = input.substr(7, input.length - 10).trim();
       output.remove = true;
     } else {
       switch (input[24].toUpperCase()) {
