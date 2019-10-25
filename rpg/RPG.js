@@ -217,13 +217,13 @@ module.exports = class RPG {
           break;
       }
 
+      
       if (specs[spec] !== undefined) {
         result = specs[spec].Parse(line);
 
         if (result.isSub === true) {
           wasSub = true;
           lastBlock = result.blockType;
-
         } else if (result.isSub === undefined & wasSub) {
           endBlock(this.lines);
         }
