@@ -284,7 +284,7 @@ module.exports = {
                 break;
             case "SELECT":
                 output.value = opcode;
-                output.nextSpaces = indent;
+                output.nextSpaces = (indent*2);
                 break;
             case "SETGT":
                 if (Lists[factor1.toUpperCase()])
