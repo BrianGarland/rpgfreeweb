@@ -22,7 +22,7 @@ module.exports = {
     };
 
     var potentialName = input.substr(7).trim();
-    var name = input.substr(7, 16).trim();
+    var name = input.substr(7, 14).trim();
     var pos = input.substr(30, 3).trim();
     var len = input.substr(33, 7).trim();
     var type = input.substr(40, 1).trim();
@@ -170,6 +170,7 @@ module.exports = {
           if (name == "*N" && type == "") {
             output.aboveKeywords = keywords;
             output.remove = true;
+            output.blockType = blockType;
           } else {
             //(isSubf ? "Dcl-Subf" : "Dcl-Parm")
             output.value = name.padEnd(14) + " " + type.padEnd(10) + " " + keywords;

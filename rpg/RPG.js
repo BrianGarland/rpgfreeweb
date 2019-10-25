@@ -223,7 +223,7 @@ module.exports = class RPG {
         if (result.isSub === true) {
           wasSub = true;
           lastBlock = result.blockType;
-
+          
         } else if (result.isSub === undefined & wasSub) {
           endBlock(this.lines);
         }
