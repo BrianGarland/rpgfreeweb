@@ -13,13 +13,14 @@ app.use('/', express.static('public'));
 
 app.post('/convert', function(req, res) {
   var lines = req.body.lines;
+  var indent = req.body.indent;
 
   lines.push('', '');
 
-  var conv = new RPG(lines);
+  var conv = new RPG(lines, Number(indent));
   conv.parse();
 
   res.send({lines, messages: conv.messages});
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`rpgfreeweb listening on port ${port}!`))

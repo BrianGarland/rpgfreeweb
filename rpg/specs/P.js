@@ -1,7 +1,7 @@
 var prevName = "";
 
 module.exports = {
-  Parse: function (input) {
+  Parse: function (input, indent) {
     var output = {
       remove: false,
       change: false,
@@ -30,7 +30,7 @@ module.exports = {
           output.nextSpaces = 2;
           break;
         case 'E':
-          output.beforeSpaces = -2;
+          output.beforeSpaces = -indent;
           output.value = "End-Proc";
           break;
       }
