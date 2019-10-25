@@ -267,10 +267,7 @@ module.exports = class RPG {
             break;
 
           case result.change:
-            console.log("spaces="+spaces);
-            console.log("change="+result.beforeSpaces);
             spaces += result.beforeSpaces;
-            console.log("spaces="+spaces);
 
             if (result.arrayoutput) {
 
@@ -293,10 +290,7 @@ module.exports = class RPG {
               }
             }
             
-            console.log("spaces="+spaces);
-            console.log("change="+result.nextSpaces);
             spaces += result.nextSpaces;
-            console.log(spaces);
             break;
         }
 
@@ -308,10 +302,7 @@ module.exports = class RPG {
     }
 
     function endBlock(lines,indent) {
-      console.log("spaces="+spaces);
-      console.log("change="+indent);
       spaces -= indent;
-      console.log("spaces="+spaces);
       if (lastBlock !== undefined) {
         lines.splice(index, 0, "".padEnd(8) + "".padEnd(spaces) + "End-" + lastBlock + ";");
         index++;
