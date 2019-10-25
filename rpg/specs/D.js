@@ -4,7 +4,7 @@ var blockType = "";
 var DSisQualified = false;
 
 module.exports = {
-  Parse: function (input) {
+  Parse: function (input, indent) {
     var output = {
       remove: false,
       change: false,
@@ -162,7 +162,7 @@ module.exports = {
           output.blockType = field;
           blockType = field;
 
-          output.nextSpaces = 2;
+          output.nextSpaces = indent;
           break;
         case "":
           output.isSub = true;

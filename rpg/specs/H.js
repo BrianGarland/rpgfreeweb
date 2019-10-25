@@ -1,5 +1,5 @@
 module.exports = {
-  Parse: function (input) {
+  Parse: function (input, indent) {
       var output = {
           remove: false,
           change: false,

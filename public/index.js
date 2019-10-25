@@ -1,16 +1,18 @@
 
 function convertCode() {
   var input = document.getElementById('input');
+  var userDefinedTab = document.getElementById('userDefinedTab');
   var output = document.getElementById('output');
   var messages = document.getElementById('messages');
   
   var lines = input.value.split('\n');
+  var indent = userDefinedTab.value;
   //var lines = $('#input').val().split('\n');
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/convert", true);
   xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.send(JSON.stringify({lines}));
+  xhr.send(JSON.stringify({lines,indent}));
   xhr.onload = function () {
       var data = JSON.parse(this.responseText);
       output.value = data.lines.join('\n');

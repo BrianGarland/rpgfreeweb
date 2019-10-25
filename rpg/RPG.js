@@ -14,9 +14,10 @@ class Message {
 }
 
 module.exports = class RPG {
-  constructor(lines) {
+  constructor(lines, indent) {
     this.currentLine = -1;
     this.lines = lines;
+    this.indent = indent;
     this.vars = {
       '*DATE': {
         name: '*DATE',
@@ -218,14 +219,14 @@ module.exports = class RPG {
       }
 
       if (specs[spec] !== undefined) {
-        result = specs[spec].Parse(line);
+        result = specs[spec].Parse(line,this.indent);
 
         if (result.isSub === true) {
           wasSub = true;
           lastBlock = result.blockType;
           
         } else if (result.isSub === undefined & wasSub) {
-          endBlock(this.lines);
+          endBlock(this.lines,this.indent);
         }
 
         if (result.var !== undefined)
@@ -295,13 +296,13 @@ module.exports = class RPG {
 
       } else {
         if (wasSub) {
-          endBlock(this.lines);
+          endBlock(this.lines,this.indent);
         }
       }
     }
 
-    function endBlock(lines) {
-      spaces -= 2;
+    function endBlock(lines,indent) {
+      spaces -= indent;
       if (lastBlock !== undefined) {
         lines.splice(index, 0, "".padEnd(8) + "".padEnd(spaces) + "End-" + lastBlock + ";");
         index++;
