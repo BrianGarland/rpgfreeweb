@@ -163,7 +163,6 @@ module.exports = {
           blockType = field;
 
           output.nextSpaces = 2;
-          
           break;
         case "":
           output.isSub = true;
