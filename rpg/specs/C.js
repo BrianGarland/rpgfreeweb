@@ -2,7 +2,7 @@ var Lastkey = "";
 var Lists = {};
 
 module.exports = {
-    Parse: function (input) {
+    Parse: function (input, indent) {
         var output = {
             remove: false,
             change: false,
@@ -58,7 +58,7 @@ module.exports = {
                 break;
             case "BEGSR":
                 output.value = opcode + " " + factor1;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "CAT":
                 if (factor2.indexOf(":") >= 0) {
@@ -100,68 +100,68 @@ module.exports = {
                 break;
             case "DO":
                 output.value = "For " + result + " = " + factor1 + " to " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOU":
             case "DOW":
                 output.value = opcode + " " + extended;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOWEQ":
                 output.value = "Dow " + factor1 + " = " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOWNE":
                 output.value = "Dow " + factor1 + " <> " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOWGT":
                 output.value = "Dow " + factor1 + " > " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOWLT":
                 output.value = "Dow " + factor1 + " < " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOWGE":
                 output.value = "Dow " + factor1 + " >= " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DOWLE":
                 output.value = "Dow " + factor1 + " <= " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "DSPLY":
                 output.value = opcode + " (" + factor1 + ") " + factor2 + " " + result;
                 break;
             case "ELSE":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode + " " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "ELSEIF":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode + " " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "ENDDO":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode;
                 break;
             case "ENDIF":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode;
                 break;
             case "ENDMON":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode;
                 break;
             case "ENDSL":
-                output.beforeSpaces = -4;
+                output.beforeSpaces = -(indent*2);
                 output.value = opcode;
                 break;
             case "ENDSR":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode;
                 break;
             case "CALLP":
@@ -182,38 +182,38 @@ module.exports = {
                 break;
             case "FOR":
                 output.value = opcode + " " + extended;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "ANDEQ":
                 output.aboveKeywords = "AND " + factor1 + " = " + factor2;
                 break;
             case "IF":
                 output.value = opcode + " " + extended;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IFGT":
                 output.value = "If " + factor1 + " > " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IFLT":
                 output.value = "If " + factor1 + " < " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IFEQ":
                 output.value = "If " + factor1 + " = " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IFNE":
                 output.value = "If " + factor1 + " <> " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IFGE":
                 output.value = "If " + factor1 + " >= " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IFLE":
                 output.value = "If " + factor1 + " <= " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "IN":
                 output.value = opcode + " " + factor1 + " " + factor2;
@@ -232,7 +232,7 @@ module.exports = {
                 break;
             case "MONITOR":
                 output.value = opcode;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "MOVE":
             case "MOVEL":
@@ -248,9 +248,9 @@ module.exports = {
                 output.value = result + " = " + factor1 + " * " + factor2;
                 break;
             case "ON-ERROR":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode + " " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "OPEN":
                 output.value = opcode + " " + factor2;
@@ -259,9 +259,9 @@ module.exports = {
                 output.value = opcode + " " + factor1 + " " + factor2;
                 break;
             case "OTHER":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "READ":
             case "READC":
@@ -284,7 +284,7 @@ module.exports = {
                 break;
             case "SELECT":
                 output.value = opcode;
-                output.nextSpaces = 4;
+                output.nextSpaces = indent;
                 break;
             case "SETGT":
                 if (Lists[factor1.toUpperCase()])
@@ -329,14 +329,14 @@ module.exports = {
                 break;
             //TODO: Other WHEN conditions
             case "WHEN":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = opcode + " " + extended;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "WHENEQ":
-                output.beforeSpaces = -2;
+                output.beforeSpaces = -indent;
                 output.value = "When " + factor1 + " = " + factor2;
-                output.nextSpaces = 2;
+                output.nextSpaces = indent;
                 break;
             case "WRITE":
                 output.value = opcode + " " + factor2 + " " + result;
