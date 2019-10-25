@@ -1,6 +1,8 @@
 var Lastkey = "";
 var Lists = {};
 
+var EndList = [];
+
 module.exports = {
     Parse: function (input, indent) {
         var output = {
@@ -101,35 +103,43 @@ module.exports = {
             case "DO":
                 output.value = "For " + result + " = " + factor1 + " to " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOU":
             case "DOW":
                 output.value = opcode + " " + extended;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOWEQ":
                 output.value = "Dow " + factor1 + " = " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOWNE":
                 output.value = "Dow " + factor1 + " <> " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOWGT":
                 output.value = "Dow " + factor1 + " > " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOWLT":
                 output.value = "Dow " + factor1 + " < " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOWGE":
                 output.value = "Dow " + factor1 + " >= " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DOWLE":
                 output.value = "Dow " + factor1 + " <= " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Enddo');
                 break;
             case "DSPLY":
                 output.value = opcode + " (" + factor1 + ") " + factor2 + " " + result;
@@ -144,13 +154,23 @@ module.exports = {
                 output.value = opcode + " " + factor2;
                 output.nextSpaces = indent;
                 break;
+            case "END":
+                if (EndList.length > 0) {
+                    output.beforeSpaces = -indent;
+                    output.value = EndList.pop();
+                } else {
+                    output.message = "Operation " + plainOp + " will not convert; no matching block found.";
+                }
+                break;
             case "ENDDO":
                 output.beforeSpaces = -indent;
                 output.value = opcode;
+                EndList.pop()
                 break;
             case "ENDIF":
                 output.beforeSpaces = -indent;
                 output.value = opcode;
+                EndList.pop()
                 break;
             case "ENDMON":
                 output.beforeSpaces = -indent;
@@ -159,6 +179,7 @@ module.exports = {
             case "ENDSL":
                 output.beforeSpaces = -(indent*2);
                 output.value = opcode;
+                EndList.pop()
                 break;
             case "ENDSR":
                 output.beforeSpaces = -indent;
@@ -190,30 +211,37 @@ module.exports = {
             case "IF":
                 output.value = opcode + " " + extended;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IFGT":
                 output.value = "If " + factor1 + " > " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IFLT":
                 output.value = "If " + factor1 + " < " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IFEQ":
                 output.value = "If " + factor1 + " = " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IFNE":
                 output.value = "If " + factor1 + " <> " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IFGE":
                 output.value = "If " + factor1 + " >= " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IFLE":
                 output.value = "If " + factor1 + " <= " + factor2;
                 output.nextSpaces = indent;
+                EndList.push('Endif');
                 break;
             case "IN":
                 output.value = opcode + " " + factor1 + " " + factor2;
@@ -285,6 +313,7 @@ module.exports = {
             case "SELECT":
                 output.value = opcode;
                 output.nextSpaces = (indent*2);
+                EndList.push('Endsl');
                 break;
             case "SETGT":
                 if (Lists[factor1.toUpperCase()])
