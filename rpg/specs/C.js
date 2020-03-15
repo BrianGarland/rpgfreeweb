@@ -296,13 +296,19 @@ module.exports = {
                 output.value = opcode + " " + factor2 + " " + result;
                 break;
             case "READE":
-                output.value = opcode + " " + factor1 + " " + factor2 + " " + result;
+                if (Lists[factor1.toUpperCase()])
+                    output.value = opcode + " (" + Lists[factor1.toUpperCase()].join(':') + ") " + factor2 + " " + result;
+                else
+                    output.value = opcode + " " + factor1 + " " + factor2 + " " + result;
                 break;
             case "READP":
                 output.value = opcode + " " + factor2 + " " + result;
                 break;
             case "READPE":
-                output.value = opcode + " " + factor1 + " " + factor2 + " " + result;
+                if (Lists[factor1.toUpperCase()])
+                    output.value = opcode + " (" + Lists[factor1.toUpperCase()].join(':') + ") " + factor2 + " " + result;
+                else
+                    output.value = opcode + " " + factor1 + " " + factor2 + " " + result;
                 break;
             case "RETURN":
                 output.value = opcode + " " + factor2;
