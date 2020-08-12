@@ -2,6 +2,7 @@ var isSubf = false;
 var prevName = "";
 var blockType = "";
 var DSisQualified = false;
+var DSisLIKEDS = false;
 
 module.exports = {
   Parse: function (input, indent) {
@@ -154,11 +155,16 @@ module.exports = {
           if (keywords.toUpperCase().indexOf('QUALIFIED') === -1)
             DSisQualified = false;
 
+          if (keywords.toUpperCase().indexOf('LIKEDS') === -1)
+            DSisLIKEDS = false;
+
           if (name == "") name = "*N";
           isSubf = (field == "DS");
           output.value = "Dcl-" + field + " " + name + " " + type + " " + keywords;
 
-          output.isSub = true;
+	      if (DSisLIKEDS = false) {
+            output.isSub = true;
+          }
           output.blockType = field;
           blockType = field;
 
