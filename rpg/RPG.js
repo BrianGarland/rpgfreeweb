@@ -219,7 +219,7 @@ module.exports = class RPG {
       }
 
       if (specs[spec] !== undefined) {
-        result = specs[spec].Parse(line,this.indent);
+        result = specs[spec].Parse(line, this.indent, wasSub);
 
         if (result.isSub === true) {
           wasSub = true;

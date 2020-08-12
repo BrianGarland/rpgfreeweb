@@ -5,7 +5,7 @@ var DSisQualified = false;
 var DSisLIKEDS = false;
 
 module.exports = {
-  Parse: function (input, indent) {
+  Parse: function (input, indent, wasSub) {
     var output = {
       remove: false,
       change: false,
@@ -60,8 +60,12 @@ module.exports = {
     if (potentialName.endsWith("...")) {
       prevName = potentialName.substr(0, potentialName.length - 3);
       output.remove = true;
+      if (wasSub) {
+      	output.isSub = true;
+      }
     }
 
+	
     if (output.remove === false) {
       switch (type.toUpperCase()) {
         case "A":

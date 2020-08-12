@@ -1,7 +1,7 @@
 var prevName = "";
 
 module.exports = {
-  Parse: function (input, indent) {
+  Parse: function (input, indent, wasSub) {
     var output = {
       remove: false,
       change: false,
