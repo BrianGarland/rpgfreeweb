@@ -4,7 +4,7 @@ var Lists = {};
 var EndList = [];
 
 module.exports = {
-    Parse: function (input, indent) {
+    Parse: function (input, indent, wasSub) {
         var output = {
             remove: false,
             change: false,
@@ -53,7 +53,7 @@ module.exports = {
             case "KFLD":
                 //Handle var declaration
                 Lists[LastKey].push(result);
-                output.remove = true;
+	            output.remove = true;
                 break;
             case "ADD":
                 output.value = result + " = " + result + " + " + factor2;
