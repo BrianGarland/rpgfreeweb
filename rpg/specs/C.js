@@ -56,7 +56,10 @@ module.exports = {
 	            output.remove = true;
                 break;
             case "ADD":
-                output.value = result + " = " + result + " + " + factor2;
+                if (factor1)
+                    output.value = result + " = " + factor1 + " + " + factor2;
+                else
+                    output.value = result + " = " + result + " + " + factor2;
                 break;
             case "BEGSR":
                 output.value = opcode + " " + factor1;
@@ -207,6 +210,9 @@ module.exports = {
                 break;
             case "ANDEQ":
                 output.aboveKeywords = "AND " + factor1 + " = " + factor2;
+                break;
+            case "ANDNE":
+                output.aboveKeywords = "AND " + factor1 + " <> " + factor2;
                 break;
             case "IF":
                 output.value = opcode + " " + extended;
