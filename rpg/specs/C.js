@@ -52,8 +52,8 @@ module.exports = {
             case "PARM":
             case "KFLD":
                 //Handle var declaration
-                Lists[LastKey].push(result);
-	            output.remove = true;
+               Lists[LastKey].push(result);
+	           output.remove = true;
                 break;
             case "ADD":
                 output.value = result + " = " + result + " + " + factor2;
