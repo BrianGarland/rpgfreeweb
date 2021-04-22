@@ -1,10 +1,11 @@
 {
   "name": "rpgfreeweb",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fixed to free converter written in Node.js JavaScript which you can self host. The port number is currently hardcoded to `9124`.",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {},
@@ -21,5 +22,6 @@
   "bugs": {
     "url": "https://github.com/worksofliam/rpgfreeweb/issues"
   },
-  "homepage": "https://github.com/worksofliam/rpgfreeweb#readme"
+  "homepage": "https://github.com/worksofliam/rpgfreeweb#readme",
+  "keywords": []
 }
